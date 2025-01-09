@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import gevorgyan.pkmn.rest.CardResponse;
 import gevorgyan.pkmn.rest.RestClient;
 import gevorgyan.pkmn.dao.CardDao;
-import gevorgyan.pkmn.entities.CardEntity;
+import gevorgyan.pkmn.entities.CardEntities;
 import gevorgyan.pkmn.services.CardService;
 import org.springframework.stereotype.Service;
 
@@ -22,28 +22,28 @@ public class CardServiceIMPL implements CardService {
     private RestClient restClient; // Внедрение RestClient
 
     @Override
-    public List<CardEntity> getAllCards() {
+    public List<CardEntities> getAllCards() {
         return cardDao.findAll();
     }
 
     @Override
-    public CardEntity getCardById(UUID id) {
+    public CardEntities getCardById(UUID id) {
         return cardDao.findById(id).orElse(null);
     }
 
     @Override
-    public CardEntity saveCard(Card card) {
+    public CardEntities saveCard(Card card) {
         if (cardDao.cardExists(card)) {
             throw new IllegalArgumentException("Карта уже есть в базе данных");
         }
         if (card.getPokemonOwner() == null) {
             throw new IllegalArgumentException("У карты нет владельца");
         }
-        return cardDao.save(CardEntity.toEntity(card));
+        return cardDao.save(CardEntities.toEntity(card));
     }
 
     @Override
-    public CardEntity updateCard(UUID id, CardEntity card) {
+    public CardEntities updateCard(UUID id, CardEntities card) {
         if (cardDao.findById(id).isEmpty()) {
             throw new RuntimeException("Card not found.");
         }
@@ -57,12 +57,12 @@ public class CardServiceIMPL implements CardService {
     }
 
     @Override
-    public List<CardEntity> getCardsByOwner(String firstName, String surName, String familyName) {
+    public List<CardEntities> getCardsByOwner(String firstName, String surName, String familyName) {
         return cardDao.findCardsByOwner(firstName, surName, familyName);
     }
 
     @Override
-    public List<CardEntity> getCardsByName(String name) {
+    public List<CardEntities> getCardsByName(String name) {
         return cardDao.findCardsByName(name);
     }
 

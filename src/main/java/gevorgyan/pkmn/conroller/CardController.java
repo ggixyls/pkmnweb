@@ -1,6 +1,6 @@
 package gevorgyan.pkmn.conroller;
 
-import gevorgyan.pkmn.entities.CardEntity;
+import gevorgyan.pkmn.entities.CardEntities;
 import gevorgyan.pkmn.entities.StudentEntities;
 import gevorgyan.pkmn.models.Card;
 import lombok.RequiredArgsConstructor;
@@ -22,23 +22,23 @@ public class CardController {
     private final CardService cardService;
 
     @GetMapping("")
-    public List<CardEntity> getAllCards() {
+    public List<CardEntities> getAllCards() {
         return cardService.getAllCards();
     }
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<CardEntity> getCardById(@PathVariable UUID id) {
-        CardEntity card = cardService.getCardById(id);
+    public ResponseEntity<CardEntities> getCardById(@PathVariable UUID id) {
+        CardEntities card = cardService.getCardById(id);
         return card != null ? ResponseEntity.ok(card) : ResponseEntity.notFound().build();
     }
 
     @PostMapping("")
-    public CardEntity saveCard(@RequestBody Card card) {
+    public CardEntities saveCard(@RequestBody Card card) {
         return cardService.saveCard(card);
     }
 
     @PutMapping("/id/{id}")
-    public CardEntity updateCard(@PathVariable UUID id, @RequestBody CardEntity card) {
+    public CardEntities updateCard(@PathVariable UUID id, @RequestBody CardEntities card) {
         return cardService.updateCard(id, card);
     }
 
@@ -49,12 +49,12 @@ public class CardController {
     }
 
     @GetMapping("/owner")
-    public List<CardEntity> getCardsByOwner(@RequestBody StudentEntities ownerRequest) {
+    public List<CardEntities> getCardsByOwner(@RequestBody StudentEntities ownerRequest) {
         return cardService.getCardsByOwner(ownerRequest.getFirstName(), ownerRequest.getSurName(), ownerRequest.getFamilyName());
     }
 
     @GetMapping("/{name}")
-    public List<CardEntity> getCardsByName(@PathVariable String name) {
+    public List<CardEntities> getCardsByName(@PathVariable String name) {
         return cardService.getCardsByName(name);
     }
 

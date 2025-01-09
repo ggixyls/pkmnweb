@@ -1,6 +1,6 @@
 package gevorgyan.pkmn.dao;
 
-import gevorgyan.pkmn.entities.CardEntity;
+import gevorgyan.pkmn.entities.CardEntities;
 import gevorgyan.pkmn.models.Card;
 import lombok.RequiredArgsConstructor;
 import gevorgyan.pkmn.repositories.CardRepository;
@@ -17,11 +17,11 @@ public class CardDao {
     @Autowired
     private final CardRepository cardRepository;
 
-    public List<CardEntity> findAll() {
+    public List<CardEntities> findAll() {
         return cardRepository.findAll();
     }
 
-    public CardEntity save(CardEntity card) {
+    public CardEntities save(CardEntities card) {
         return cardRepository.save(card);
     }
 
@@ -29,19 +29,19 @@ public class CardDao {
         cardRepository.deleteById(id);
     }
 
-    public List<CardEntity> findCardsByOwner(String firstName, String surName, String familyName) {
+    public List<CardEntities> findCardsByOwner(String firstName, String surName, String familyName) {
         return cardRepository.findByPokemonOwner(firstName, surName, familyName);
     }
 
-    public List<CardEntity> findCardsByName(String name) {
+    public List<CardEntities> findCardsByName(String name) {
         return cardRepository.findByName(name);
     }
 
-    public Optional<CardEntity> findById(UUID id) {
+    public Optional<CardEntities> findById(UUID id) {
         return cardRepository.findById(id);
     }
     public boolean cardExists(Card card) {
-        List<CardEntity> cards = cardRepository.findByName(card.getName());
+        List<CardEntities> cards = cardRepository.findByName(card.getName());
         return !cards.isEmpty(); // Если список не пуст, значит карта существует
     }
 }
