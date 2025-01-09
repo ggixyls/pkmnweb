@@ -14,7 +14,7 @@ public interface CardRepository extends JpaRepository<CardEntities, UUID> {
     @Query(
             """
                     SELECT card
-                    FROM CardEntity as card
+                    FROM CardEntities as card
                     WHERE card.pokemonOwner.firstName = :firstName
                       AND card.pokemonOwner.surName = :surName
                       AND card.pokemonOwner.familyName = :familyName
