@@ -25,7 +25,6 @@ public class CardEntities implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
     @Column(name="name")
@@ -58,7 +57,7 @@ public class CardEntities implements Serializable {
 
     @ManyToOne(cascade = CascadeType.ALL, optional = true)
     @JoinColumn(name = "pokemon_owner_id")
-    private Student pokemonOwner;
+    private StudentEntities pokemonOwner;
 
     @JdbcTypeCode(JSON)
     @Column(name="attack_skills", columnDefinition = "JSON")
@@ -84,5 +83,27 @@ public class CardEntities implements Serializable {
                 ", regulationMark=" + regulationMark +
                 ", owner=" + ((pokemonOwner != null) ? pokemonOwner.toString() : pokemonOwner)+
                 '}';
+    }
+
+    public static CardEntities toEntity(Card card) {
+        if (card != null) {
+            return CardEntities.builder()
+                    .id(UUID.randomUUID())
+                    .pokemonStage(card.getPokemonStage())
+                    .name(card.getName())
+                    .hp((short) card.getHp())
+                    .pokemonType(card.getPokemonType())
+                    .evolvesFrom(toEntity(card.getEvolvesFrom()))
+                    .skills(card.getSkills())
+                    .weaknessType(card.getWeaknessType())
+                    .resistanceType(card.getResistanceType())
+                    .retreatCost(card.getRetreatCost())
+                    .gameSet(card.getGameSet())
+                    .regulationMark(card.getRegulationMark())
+                    .pokemonOwner(StudentEntities.toEntity(card.getPokemonOwner()))
+                    .cardNumber(card.getNumber())
+                    .build();
+        }
+        return null;
     }
 }
